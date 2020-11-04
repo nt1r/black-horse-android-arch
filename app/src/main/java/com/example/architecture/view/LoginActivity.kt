@@ -1,7 +1,6 @@
 package com.example.architecture.view
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +10,6 @@ import com.example.architecture.viewmodel.LoginExceptionHandler
 import com.example.architecture.viewmodel.LoginViewModel
 import com.example.architecture.viewmodel.User
 import com.google.android.material.textfield.TextInputEditText
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: AppCompatButton

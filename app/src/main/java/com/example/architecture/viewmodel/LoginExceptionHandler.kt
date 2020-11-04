@@ -2,7 +2,7 @@ package com.example.architecture.viewmodel
 
 import android.util.Log
 
-class LoginExceptionHandler: Thread.UncaughtExceptionHandler {
+class LoginExceptionHandler : Thread.UncaughtExceptionHandler {
     private val TAG = "EHandler"
 
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
