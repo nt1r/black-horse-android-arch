@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Architecture</string>
+    <string name="architecture_activity" translatable="false">Architecture Activity</string>
+    <string name="zero" translatable="false">0</string>
+    <string name="increase">Increase</string>
+    <string name="clear">Clear</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login">Login</string>
+    <string name="fill">Fill</string>
+    <string name="login_activity" translatable="false">Login Activity</string>
+    <string name="save_user_success">Save user success</string>
+    <string name="save_user_failed">Save user failed</string>
+    <string name="user_exist">User exists</string>
+    <string name="comma">", "</string>
+    <string name="user_not_exist">User not exist</string>
+    <string name="password_wrong">Password wrong</string>
+    <string name="login_failed">Login failed</string>
+    <string name="login_success">Login success</string>
+    <string name="username_length_error">The length range should be 1 ~ 8</string>
+    <string name="password_empty_error">Password empty</string>
+</resources>
