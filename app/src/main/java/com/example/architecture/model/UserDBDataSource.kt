@@ -21,6 +21,10 @@ class UserDBDataSource(private val context: Context) : UserRepository {
         return databaseInstance!!
     }
 
+    fun setDBInstance(userDatabase: UserDatabase?) {
+        this.databaseInstance = userDatabase
+    }
+
     override fun findByName(name: String): Maybe<UserEntity> {
         var userEntity: UserEntity? = null
         try {

@@ -1,7 +1,6 @@
 package com.example.architecture.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,13 +16,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
-    private val loginResult: MutableLiveData<LoginResult> by lazy {
-        MutableLiveData<LoginResult>()
-    }
+    private val _loginResult: MutableLiveData<LoginResult> = MutableLiveData()
+    val loginResult: LiveData<LoginResult>
+        get() = _loginResult
 
-    private val registerResult: MutableLiveData<RegisterResult> by lazy {
-        MutableLiveData<RegisterResult>()
-    }
+    private val _registerResult: MutableLiveData<RegisterResult> = MutableLiveData()
+    val registerResult: LiveData<RegisterResult>
+        get() = _registerResult
+
     private lateinit var context: Context
     private lateinit var userDBDataSource: UserRepository
 
@@ -32,6 +32,11 @@ class LoginViewModel : ViewModel() {
     fun init(context: Context) {
         this.context = context
         userDBDataSource = UserDBDataSource(this.context)
+    }
+
+    fun init(context: Context, dataSource: UserDBDataSource) {
+        this.context = context
+        userDBDataSource = dataSource
     }
 
     fun login(user: User) {
@@ -50,21 +55,20 @@ class LoginViewModel : ViewModel() {
                     }
                 )
             if (userFound == null) {
-                Log.d(TAG, "login failed, user not found")
-                viewModelScope.launch(Dispatchers.Main) {
+                // Log.d(TAG, "login failed, user not found")
+                /*viewModelScope.launch(Dispatchers.Main) {
                     loginResult.value = LoginResult(false, context.getString(R.string.user_not_exist))
-                }
+                }*/
+                // loginResult.value = LoginResult(false, context.getString(R.string.user_not_exist))
+                _loginResult.postValue(LoginResult(false, context.getString(R.string.user_not_exist)))
             } else {
                 if (isPasswordMatch(userFound!!, user.password)) {
-                    Log.d(TAG, "login success")
-                    viewModelScope.launch(Dispatchers.Main) {
-                        loginResult.value = LoginResult(true, "")
-                    }
+                    // Log.d(TAG, "login success")
+                    // _loginResult.value = LoginResult(true, "")
+                    _loginResult.postValue(LoginResult(true, ""))
                 } else {
-                    Log.d(TAG, "login success, password wrong")
-                    viewModelScope.launch(Dispatchers.Main) {
-                        loginResult.value = LoginResult(false, context.getString(R.string.password_wrong))
-                    }
+                    // Log.d(TAG, "login success, password wrong")
+                    _loginResult.postValue(LoginResult(false, context.getString(R.string.password_wrong)))
                 }
             }
         }
@@ -79,14 +83,10 @@ class LoginViewModel : ViewModel() {
             userDBDataSource.save(Convertor.convertUser2UserEntity(user))
                 .subscribeBy(
                     onComplete = {
-                        viewModelScope.launch(Dispatchers.Main) {
-                            registerResult.value = RegisterResult(true, "")
-                        }
+                        _registerResult.postValue(RegisterResult(true, ""))
                     },
                     onError = {
-                        viewModelScope.launch(Dispatchers.Main) {
-                            registerResult.value = RegisterResult(false, context.getString(R.string.user_exist))
-                        }
+                        _registerResult.postValue(RegisterResult(false, context.getString(R.string.user_exist)))
                     }
                 )
         }
@@ -98,11 +98,11 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun getLoginResult(): LiveData<LoginResult> {
-        return loginResult
+    fun getDataSource(): UserRepository {
+        return userDBDataSource
     }
 
-    fun getRegisterResult(): LiveData<RegisterResult> {
-        return registerResult
+    fun setDataSource(userRepository: UserRepository) {
+        userDBDataSource = userRepository
     }
 }

@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private val TAG = "Architecture"
     private val USERNAME_MAX_LENGTH = 8
 
-    private val loginViewModel: LoginViewModel by viewModels()
+    val loginViewModel: LoginViewModel by viewModels()
 
     private val exceptionHandler: Thread.UncaughtExceptionHandler = LoginExceptionHandler()
 
@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initLoginViewModel() {
         loginViewModel.init(applicationContext)
-        loginViewModel.getLoginResult().observe(this, { loginResult ->
+        loginViewModel.loginResult.observe(this, { loginResult ->
             if (loginResult.isLoginSuccess) {
                 Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
             } else {
@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
         })
-        loginViewModel.getRegisterResult().observe(this, { registerResult ->
+        loginViewModel.registerResult.observe(this, { registerResult ->
             if (registerResult.isRegisterSuccess) {
                 Toast.makeText(this@LoginActivity, R.string.save_user_success, Toast.LENGTH_LONG).show()
             } else {
